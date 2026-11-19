@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>旧书角 · 校园二手书交换</title>
+<style>
+:root{
+  --bg:#f3eee4;--paper:#fffcf5;--ink:#2b2620;--ink2:#6d6355;--line:#d8cfbf;
+  --accent:#b4432f;--soft:#efe2d8;--green:#3f6b4f;--r:6px;
+  --sh:0 1px 2px rgba(43,38,32,.05),0 10px 26px rgba(43,38,32,.07);
+}
+body.dark{
+  --bg:#1c1915;--paper:#262119;--ink:#eee5d5;--ink2:#a89b88;--line:#3c352c;
+  --accent:#d97455;--soft:#33291f;--green:#93b89e;
+  --sh:0 1px 2px rgba(0,0,0,.3),0 10px 26px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Songti SC",SimSun,Georgia,"Noto Serif SC",serif;
+  font-size:15px;line-height:1.7;
+  transition:background .25s,color .25s;
+}
+button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
+button{cursor:pointer}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1100px;margin:0 auto;padding:0 20px}
+
+header{
+  position:sticky;top:0;z-index:30;background:var(--bg);
+  border-bottom:1px solid var(--line);transition:background .25s;
+}
+.head{display:flex;align-items:center;gap:16px;padding:13px 0}
+.logo{font-size:21px;font-weight:700;letter-spacing:.1em;white-space:nowrap}
+.logo em{font-style:normal;color:var(--accent)}
+.logo small{
+  font-size:10px;letter-spacing:.22em;color:var(--ink2);
+  font-family:system-ui,sans-serif;font-weight:400;margin-left:6px;vertical-align:2px;
+}
+.acts{margin-left:auto;display:flex;gap:8px;align-items:center}
+.btn{
+  border:1px solid var(--ink);background:transparent;color:var(--ink);
+  padding:6px 14px;border-radius:2px;transition:.15s;white-space:nowrap;
+}
+.btn:hover{background:var(--ink);color:var(--paper)}
+.btn.pri{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.pri:hover{filter:brightness(.9);background:var(--accent)}
+.btn.ghost{border-color:var(--line);color:var(--ink2)}
+.btn.ghost:hover{background:var(--paper);color:var(--ink)}
+.btn.sm{padding:2px 9px;font-size:12.5px}
+
+.hero{padding:40px 0 26px}
+.hero h1{margin:0 0 10px;font-size:38px;line-height:1.32;letter-spacing:.02em;font-weight:700}
+.hero h1 span{
+  color:var(--accent);
+  border-bottom:4px solid var(--soft);
+}
+.hero p{margin:0;color:var(--ink2);max-width:35em}
+.stats{
+  display:flex;gap:26px;flex-wrap:wrap;margin-top:24px;
+  padding-top:16px;border-top:1px dashed var(--line);
+}
+.stat b{font-family:Georgia,serif;font-size:22px;color:var(--ink);font-weight:700}
+.stat span{display:block;font-size:11.5px;color:var(--ink2);font-family:system-ui,sans-serif;letter-spacing:.05em}
+
+.toolbar{
+  display:flex;gap:10px;flex-wrap:wrap;align-items:center;
+  padding:13px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  position:sticky;top:53px;background:var(--bg);z-index:20;transition:background .25s;
+}
+.search{
+  flex:1;min-width:170px;background:var(--paper);border:1px solid var(--line);
+  padding:7px 12px;border-radius:2px;outline:none;
+}
+.search:focus{border-color:var(--ink)}
+select{
+  background:var(--paper);border:1px solid var(--line);
+  padding:7px 9px;border-radius:2px;outline:none;
+}
+.favfilter{border:1px solid var(--line);background:var(--paper);color:var(--ink2);padding:6px 11px;border-radius:2px}
+.favfilter.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.count{font-size:12.5px;color:var(--ink2);font-family:system-ui,sans-serif;margin-left:auto}
+
+.grid{
+  display:grid;gap:20px;padding:26px 0 46px;
+  grid-template-columns:repeat(auto-fill,minmax(212px,1fr));
+}
+.card{
+  background:var(--paper);border:1px solid var(--line);border-radius:var(--r);
+  box-shadow:var(--sh);padding:0 0 12px;position:relative;
+  display:flex;flex-direction:column;cursor:pointer;
+  transition:transform .18s,box-shadow .18s;
+  animation:up .28s ease-out both;
+}
+@keyframes up{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.card:hover{transform:translateY(-3px);box-shadow:0 4px 10px rgba(43,38,32,.08),0 16px 34px rgba(43,38,32,.11)}
+.card.sold{opacity:.62}
+.cover{
+  height:110px;border-radius:var(--r) var(--r) 0 0;
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  padding:10px;color:#fff;font-weight:700;font-size:14px;line-height:1.35;
+  letter-spacing:.03em;overflow:hidden;
+}
+.card .body{padding:11px 13px 0;display:flex;flex-direction:column;gap:3px;flex:1}
+.card h3{margin:0;font-size:14.5px;line-height:1.45;font-weight:700}
+.meta{font-size:11.5px;color:var(--ink2);font-family:system-ui,sans-serif}
+.price{font-family:Georgia,serif;font-size:19px;color:var(--accent);font-weight:700;line-height:1.3}
+.price s{font-size:11.5px;color:var(--ink2);font-weight:400;margin-left:5px;font-family:system-ui,sans-serif}
+.foot{
+  display:flex;align-items:center;gap:6px;margin-top:auto;
+  padding:9px 13px 0;border-top:1px dashed var(--line);
+  font-size:11px;color:var(--ink2);font-family:system-ui,sans-serif;
+}
+.foot .sp{margin-left:auto}
+.tag{border:1px solid var(--line);border-radius:99px;padding:0 6px;font-size:10px;display:inline-block;line-height:16px}
+.tag.g{border-color:var(--green);color:var(--green)}
+.fav{
+  position:absolute;top:7px;right:7px;z-index:2;border:none;background:none;
+  font-size:15px;line-height:1;padding:3px;color:#fff;opacity:.6;
+  text-shadow:0 1px 3px rgba(0,0,0,.4);transition:.15s;
+}
+.fav:hover{opacity:1;transform:scale(1.18)}
+.fav.on{opacity:1;color:#ffd9b0}
+.empty{grid-column:1/-1;text-align:center;padding:64px 0;color:var(--ink2)}
+
+.mask{
+  position:fixed;inset:0;background:rgba(28,24,18,.5);display:none;
+  align-items:center;justify-content:center;padding:18px;z-index:60;
+  backdrop-filter:blur(2px);
+}
+.mask.on{display:flex}
+.sheet{
+  background:var(--paper);border:1px solid var(--line);border-radius:5px;
+  width:100%;max-width:470px;max-height:88vh;overflow:auto;padding:22px 22px 16px;
+  box-shadow:0 24px 64px rgba(0,0,0,.3);animation:pop .17s ease-out;
+}
+@keyframes pop{from{transform:scale(.98);opacity:.4}to{transform:none;opacity:1}}
+.sheet h2{margin:0 0 2px;font-size:19px}
+.sheet .sub{margin:0 0 18px;font-size:12px;color:var(--ink2);font-family:system-ui,sans-serif}
+.f{margin-bottom:11px;display:flex;flex-direction:column;gap:3px}
+.f label{font-size:11.5px;color:var(--ink2);font-family:system-ui,sans-serif}
+.f input,.f select,.f textarea{
+  background:var(--bg);border:1px solid var(--line);padding:7px 9px;border-radius:2px;outline:none;
+}
+.f input:focus,.f select:focus,.f textarea:focus{border-color:var(--ink)}
+.f textarea{resize:vertical;min-height:58px}
+.f .e{display:none;font-size:11px;color:var(--accent);font-family:system-ui,sans-serif}
+.f.bad input,.f.bad select,.f.bad textarea{border-color:var(--accent)}
+.f.bad .e{display:block}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.sheet-foot{display:flex;gap:9px;justify-content:flex-end;margin-top:16px;padding-top:13px;border-top:1px solid var(--line)}
+.detail-cover{height:74px;border-radius:4px;margin-bottom:14px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:15px;padding:8px;text-align:center}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:5px 16px;font-size:13px;margin:14px 0}
+.kv dt{color:var(--ink2);font-family:system-ui,sans-serif;font-size:12px}
+.kv dd{margin:0}
+
+.toast{
+  position:fixed;left:50%;bottom:34px;transform:translate(-50%,20px);
+  background:var(--ink);color:var(--paper);padding:9px 18px;border-radius:3px;
+  font-size:13px;opacity:0;pointer-events:none;transition:.25s;z-index:99;
+  font-family:system-ui,sans-serif;max-width:88vw;text-align:center;
+}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+
+footer{
+  border-top:1px solid var(--line);padding:22px 0 40px;
+  font-size:11.5px;color:var(--ink2);font-family:system-ui,sans-serif;
+  display:flex;gap:14px;flex-wrap:wrap;
+}
+@media (max-width:600px){
+  .hero h1{font-size:27px}.hero{padding:26px 0 18px}
+  .grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:13px}
+  .cover{height:82px;font-size:12.5px}
+  .two{grid-template-columns:1fr}
+  .toolbar{top:50px}
+  .stats{gap:18px}
+}
+@media print{.acts,.toolbar,.mask,footer,.fav{display:none!important}.card{break-inside:avoid;box-shadow:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="head">
+      <div class="logo">旧书<em>角</em><small>CAMPUS BOOK SWAP</small></div>
+      <div class="acts">
+        <button class="btn ghost sm" id="themeBtn">暗色</button>
+        <button class="btn pri" id="publishBtn">发布闲置</button>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <h1>期末了，<span>把课本交给下一个人</span></h1>
+    <p>一个只在华师校内流转的二手书角落。按学院、按成色筛选，价格自己谈，见面自提。不卖假书，不赚差价。</p>
+    <div class="stats">
+      <div class="stat"><b id="sTotal">0</b><span>在架图书</span></div>
+      <div class="stat"><b id="sPrice">0</b><span>平均价格</span></div>
+      <div class="stat"><b id="sSave">0</b><span>累计省下</span></div>
+      <div class="stat"><b id="sSold">0</b><span>已成交</span></div>
+    </div>
+  </section>
+
+  <div class="toolbar">
+    <input class="search" id="q" placeholder="搜书名、作者、学院…">
+    <select id="cat">
+      <option value="">全部学院</option>
+      <option>文学</option><option>高数</option><option>计算机</option>
+      <option>物理</option><option>外语</option><option>经管</option>
+      <option>心理</option><option>化学</option>
+    </select>
+    <select id="sort">
+      <option value="new">最新发布</option>
+      <option value="low">价格从低到高</option>
+      <option value="high">价格从高到低</option>
+      <option value="rate">成色最好</option>
+    </select>
+    <button class="favfilter" id="favBtn">只看收藏</button>
+    <span class="count" id="count"></span>
+  </div>
+
+  <main class="grid" id="grid"></main>
+
+  <footer>
+    <span>旧书角 · 课程作业演示项目</span>
+    <span>数据保存在浏览器本地，刷新不丢</span>
+    <span>明子钧 · 2024214075</span>
+  </footer>
+</div>
+
+<div class="mask" id="mask">
+  <div class="sheet" id="sheet"></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+"use strict";
+
+/* ========== 1. 数据层 ========== */
+const KEY = "jiushujiao.v1";
+const CATS = ["文学","高数","计算机","物理","外语","经管","心理","化学"];
+const COLORS = ["#7c4a3a","#3f5d6b","#6b6b3f","#5a4a6b","#7a5a3a","#3a5a4a","#6b4a4f","#4a566b"];
+const NAMES = ["林小满","周予安","陈默","许知夏","赵一鸣","孙可","钱多多","吴桐","郑小satisfied","冯遥","何川","蒋念念"];
+
+/* 用固定种子生成初始数据，保证每次打开内容一致 */
+let seed = 2024214075;
+function rnd(){ seed = (seed * 1103515245 + 12345) % 2147483648; return seed / 2147483648; }
+function pick(a){ return a[Math.floor(rnd()*a.length)]; }
+
+const BOOKS = [
+  ["西方文学十五讲","文学","北大版"],["中国现代文学三十年","文学","钱理群"],
+  ["古代汉语（校订重排本）","文学","王力"],["文字学概要","文学","裘锡圭"],
+  ["高等数学 上册","高数","同济第七版"],["高等数学 下册","高数","同济第七版"],
+  ["线性代数","高数","同济版"],["概率论与数理统计","高数","浙大版"],
+  ["数学分析讲义","高数","华师版"],["离散数学及其应用","计算机","Rosen"],
+  ["数据结构（C语言版）","计算机","严蔚敏"],["计算机网络 自顶向下","计算机","Kurose"],
+  ["C Primer Plus","计算机","第6版"],["操作系统概念","计算机","恐龙书"],
+  ["Python编程 从入门到实践","计算机","第3版"],["大学物理实验","物理","华师版"],
+  ["普通物理学","物理","程守洙"],["量子力学教程","物理","曾谨言"],
+  ["新视野大学英语 读写教程2","外语","第三版"],["现代汉语词典","外语","第7版"],
+  ["经济学原理 微观分册","经管","曼昆"],["管理学","经管","罗宾斯"],
+  ["会计学原理","经管","第6版"],["社会心理学","心理","戴维·迈尔斯"],
+  ["普通心理学","心理","彭聃龄"],["实验心理学","心理","郭秀艳"],
+  ["有机化学","化学","邢其毅"],["分析化学","化学","武汉大学"]
+];
+const CONDS = [["九成新",96],["八成新",88],["七成新",78],["六成新",68],["全新未拆",100]];
+
+function makeId(){ return "b" + Math.random().toString(36).slice(2,9); }
+
+function buildSeed(){
+  return BOOKS.map(function(b, i){
+    const orig = [39,45,52,58,68,79,32,42][i % 8];
+    const c = CONDS[i % CONDS.length];
+    const rate = 0.22 + rnd()*0.32;
+    return {
+      id: "s" + i,
+      title: b[0],
+      cat: b[1],
+      note: b[2],
+      price: Math.max(5, Math.round(orig * rate / 2) * 2),
+      original: orig,
+      cond: c[0],
+      seller: NAMES[i % NAMES.length],
+      contact: "QQ " + (200000000 + Math.floor(rnd()*9999999)),
+      desc: pick(["书页干净，无笔记","有几页铅笔划线，可擦","有少量荧光笔标记，不影响阅读","封面有折痕，内页完好","几乎没翻过，一直闲置","笔记做得很认真，附赠课程总结"]),
+      time: Date.now() - Math.floor(rnd()*28)*86400000,
+      fav: false,
+      sold: false
+    };
+  });
+}
+
+function load(){
+  try{
+    const raw = localStorage.getItem(KEY);
+    if(raw){
+      const d = JSON.parse(raw);
+      if(d && Array.isArray(d.books) && d.books.length) return d;
+    }
+  }catch(e){}
+  return { books: buildSeed() };
+}
+let db = load();
+
+function save(){
+  try{ localStorage.setItem(KEY, JSON.stringify(db)); }catch(e){ toast("本地存储不可用，数据仅在本次打开有效"); }
+}
+
+/* ========== 2. 状态与工具 ========== */
+let ui = { q:"", cat:"", sort:"new", onlyFav:false };
+let lastFocused = null;
+
+const $ = function(s, r){ return (r||document).querySelector(s); };
+const $$ = function(s, r){ return Array.prototype.slice.call((r||document).querySelectorAll(s)); };
+
+function esc(s){
+  return String(s == null ? "" : s)
+    .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;").replace(/'/g,"&#39;");
+}
+function money(n){ return "¥" + n; }
+function timeAgo(t){
+  const d = Date.now() - t, day = 86400000;
+  if(d < 3600000) return Math.max(1, Math.round(d/60000)) + " 分钟前";
+  if(d < day) return Math.round(d/3600000) + " 小时前";
+  return Math.round(d/day) + " 天前";
+}
+function colorOf(cat){ return COLORS[Math.max(0, CATS.indexOf(cat)) % COLORS.length]; }
+
+let toastTimer = null;
+function toast(msg){
+  const t = $("#toast");
+  t.textContent = msg;
+  t.classList.add("on");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ t.classList.remove("on"); }, 2200);
+}
+
+/* ========== 3. 筛选与渲染 ========== */
+function visible(){
+  const q = ui.q.trim().toLowerCase();
+  let list = db.books.filter(function(b){
+    if(ui.cat && b.cat !== ui.cat) return false;
+    if(ui.onlyFav && !b.fav) return false;
+    if(!q) return true;
+    return (b.title + " " + b.note + " " + b.seller + " " + b.cat + " " + b.desc).toLowerCase().indexOf(q) > -1;
+  });
+  const s = ui.sort;
+  list.sort(function(a,b){
+    if(s === "low") return a.price - b.price;
+    if(s === "high") return b.price - a.price;
+    if(s === "rate") return b.original - a.original;
+    return b.time - a.time;
+  });
+  return list;
+}
+
+function cardHTML(b, idx){
+  const done = b.sold;
+  return '<article class="card' + (done ? " sold" : "") + '" data-id="' + b.id + '" ' +
+    'style="animation-delay:' + Math.min(idx*22, 260) + 'ms" tabindex="0" role="button" aria-label="' + esc(b.title) + '">' +
+    '<button class="fav' + (b.fav ? " on" : "") + '" data-fav="' + b.id + '" aria-label="收藏" aria-pressed="' + (b.fav?"true":"false") + '">' + (b.fav ? "★" : "☆") + '</button>' +
+    '<div class="cover" style="background:' + colorOf(b.cat) + '">' + esc(b.title) + '</div>' +
+    '<div class="body">' +
+      '<h3>' + esc(b.title) + '</h3>' +
+      '<div class="meta">' + esc(b.cat) + ' · ' + esc(b.note) + '</div>' +
+      '<div class="price">' + money(b.price) + '<s>' + money(b.original) + '</s></div>' +
+    '</div>' +
+    '<div class="foot">' +
+      '<span class="tag' + (b.cond === "全新未拆" || b.cond === "九成新" ? " g" : "") + '">' + esc(b.cond) + '</span>' +
+      (done ? '<span class="tag">已售出</span>' : '') +
+      '<span class="sp">' + esc(b.seller) + '</span>' +
+      '<span>' + timeAgo(b.time) + '</span>' +
+    '</div>' +
+  '</article>';
+}
+
+function render(){
+  const list = visible();
+  const grid = $("#grid");
+  grid.innerHTML = list.length
+    ? list.map(cardHTML).join("")
+    : '<div class="empty">没有符合条件的书。换个关键词，或者自己发一本试试。</div>';
+  $("#count").textContent = "共 " + list.length + " 本";
+
+  const live = db.books.filter(function(b){ return !b.sold; });
+  const total = live.length;
+  const sum = live.reduce(function(a,b){ return a + b.price; }, 0);
+  const save = db.books.reduce(function(a,b){ return a + Math.max(0, b.original - b.price); }, 0);
+  $("#sTotal").textContent = total;
+  $("#sPrice").textContent = total ? Math.round(sum/total) : 0;
+  $("#sSave").textContent = save;
+  $("#sSold").textContent = db.books.filter(function(b){ return b.sold; }).length;
+}
+
+/* ========== 4. 详情弹层 ========== */
+function openDetail(id){
+  const b = db.books.filter(function(x){ return x.id === id; })[0];
+  if(!b) return;
+  lastFocused = document.activeElement;
+  $("#sheet").innerHTML =
+    '<div class="detail-cover" style="background:' + colorOf(b.cat) + '">' + esc(b.title) + '</div>' +
+    '<h2>' + esc(b.title) + '</h2>' +
+    '<p class="sub">' + esc(b.cat) + ' · ' + esc(b.note) + ' · ' + esc(b.cond) + '</p>' +
+    '<div class="price">' + money(b.price) + '<s>' + money(b.original) + '</s></div>' +
+    '<dl class="kv">' +
+      '<dt>卖家</dt><dd>' + esc(b.seller) + '</dd>' +
+      '<dt>联系方式</dt><dd>' + esc(b.contact) + '</dd>' +
+      '<dt>描述</dt><dd>' + esc(b.desc) + '</dd>' +
+      '<dt>发布</dt><dd>' + timeAgo(b.time) + '</dd>' +
+      '<dt>状态</dt><dd>' + (b.sold ? "已售出" : "在架") + '</dd>' +
+    '</dl>' +
+    '<div class="sheet-foot">' +
+      '<button class="btn ghost" data-act="close">关闭</button>' +
+      '<button class="btn" data-act="fav" data-id="' + b.id + '">' + (b.fav ? "取消收藏" : "收藏") + '</button>' +
+      '<button class="btn pri" data-act="sold" data-id="' + b.id + '">' + (b.sold ? "恢复在架" : "标记已售") + '</button>' +
+    '</div>';
+  $("#mask").classList.add("on");
+  setTimeout(function(){ const f = $("#sheet .btn.pri"); if(f) f.focus(); }, 30);
+}
+
+function closeModal(){
+  $("#mask").classList.remove("on");
+  if(lastFocused && lastFocused.focus) lastFocused.focus();
+}
+
+/* ========== 5. 发布表单 ========== */
+function openPublish(){
+  lastFocused = document.activeElement;
+  $("#sheet").innerHTML =
+    '<h2>发布一本闲置</h2>' +
+    '<p class="sub">填基本信息就行，价格写得实在点更容易出手。</p>' +
+    '<form id="pubForm" novalidate>' +
+      '<div class="f" data-f="title"><label>书名 *</label><input name="title" maxlength="40" placeholder="例如：高等数学 上册"><span class="e">书名不能为空</span></div>' +
+      '<div class="two">' +
+        '<div class="f" data-f="cat"><label>学院/分类</label><select name="cat">' +
+          CATS.map(function(c){ return "<option>" + c + "</option>"; }).join("") +
+        '</select><span class="e">请选择分类</span></div>' +
+        '<div class="f" data-f="cond"><label>成色</label><select name="cond">' +
+          CONDS.map(function(c){ return "<option>" + c[0] + "</option>"; }).join("") +
+        '</select><span class="e"></span></div>' +
+      '</div>' +
+      '<div class="two">' +
+        '<div class="f" data-f="price"><label>售价（元）*</label><input name="price" type="number" min="0" step="1" placeholder="20"><span class="e">填一个 0 以上的数字</span></div>' +
+        '<div class="f" data-f="original"><label>原价（元）</label><input name="original" type="number" min="0" step="1" placeholder="68"><span class="e">原价要大于售价</span></div>' +
+      '</div>' +
+      '<div class="two">' +
+        '<div class="f" data-f="seller"><label>你的称呼</label><input name="seller" maxlength="12" placeholder="同学怎么称呼你"></div>' +
+        '<div class="f" data-f="contact"><label>联系方式</label><input name="contact" maxlength="30" placeholder="QQ / 微信"></div>' +
+      '</div>' +
+      '<div class="f" data-f="desc"><label>描述</label><textarea name="desc" maxlength="120" placeholder="书页情况、有无笔记、附赠资料…"></textarea><span class="e"></span></div>' +
+      '<div class="sheet-foot">' +
+        '<button type="button" class="btn ghost" data-act="close">取消</button>' +
+        '<button type="submit" class="btn pri">发布</button>' +
+      '</div>' +
+    '</form>';
+  $("#mask").classList.add("on");
+  setTimeout(function(){ const i = $("#pubForm [name=title]"); if(i) i.focus(); }, 40);
+}
+
+function submitPublish(e){
+  e.preventDefault();
+  const f = e.target;
+  const v = {
+    title: f.title.value.trim(),
+    cat: f.cat.value,
+    cond: f.cond.value,
+    price: f.price.value.trim(),
+    original: f.original.value.trim(),
+    seller: f.seller.value.trim(),
+    contact: f.contact.value.trim(),
+    desc: f.desc.value.trim()
+  };
+  let bad = null;
+  function mark(name, isBad){
+    const box = f.querySelector('[data-f="' + name + '"]');
+    box.classList.toggle("bad", !!isBad);
+    if(isBad && !bad) bad = box.querySelector("input,select,textarea");
+  }
+  mark("title", !v.title);
+  const price = Number(v.price);
+  mark("price", v.price === "" || isNaN(price) || price < 0 || price > 9999);
+  const orig = v.original === "" ? null : Number(v.original);
+  mark("original", orig !== null && (isNaN(orig) || orig < price));
+  if(bad){ bad.focus(); toast("检查一下标红的几项"); return; }
+
+  db.books.unshift({
+    id: makeId(),
+    title: v.title,
+    cat: v.cat,
+    note: "自述",
+    price: Math.round(price),
+    original: orig && !isNaN(orig) ? Math.round(orig) : Math.round(price * 2),
+    cond: v.cond,
+    seller: v.seller || "匿名同学",
+    contact: v.contact || "站内联系",
+    desc: v.desc || "（卖家没写描述）",
+    time: Date.now(),
+    fav: false,
+    sold: false
+  });
+  save();
+  ui.sort = "new";
+  $("#sort").value = "new";
+  render();
+  closeModal();
+  toast("已发布，刷新也不会丢");
+}
+
+/* ========== 6. 事件绑定 ========== */
+function bind(){
+  let timer = null;
+  $("#q").addEventListener("input", function(e){
+    clearTimeout(timer);
+    const val = e.target.value;
+    timer = setTimeout(function(){ ui.q = val; render(); }, 180);
+  });
+
+  $("#cat").addEventListener("change", function(e){ ui.cat = e.target.value; render(); });
+  $("#sort").addEventListener("change", function(e){ ui.sort = e.target.value; render(); });
+
+  $("#favBtn").addEventListener("click", function(e){
+    ui.onlyFav = !ui.onlyFav;
+    e.currentTarget.classList.toggle("on", ui.onlyFav);
+    e.currentTarget.textContent = ui.onlyFav ? "显示全部" : "只看收藏";
+    render();
+  });
+
+  $("#publishBtn").addEventListener("click", openPublish);
+
+  $("#themeBtn").addEventListener("click", function(e){
+    const dark = document.body.classList.toggle("dark");
+    e.currentTarget.textContent = dark ? "暖色" : "暗色";
+    try{ localStorage.setItem(KEY + ".theme", dark ? "dark" : "light"); }catch(err){}
+  });
+
+  /* 事件委托：网格上的收藏、打开详情 */
+  $("#grid").addEventListener("click", function(e){
+    const favBtn = e.target.closest("[data-fav]");
+    if(favBtn){
+      e.stopPropagation();
+      const id = favBtn.getAttribute("data-fav");
+      const b = db.books.filter(function(x){ return x.id === id; })[0];
+      if(!b) return;
+      b.fav = !b.fav;
+      save();
+      render();
+      toast(b.fav ? "已收藏：" + b.title : "已取消收藏");
+      return;
+    }
+    const card = e.target.closest(".card");
+    if(card) openDetail(card.getAttribute("data-id"));
+  });
+
+  $("#grid").addEventListener("keydown", function(e){
+    if(e.key !== "Enter" && e.key !== " ") return;
+    const card = e.target.closest(".card");
+    if(card){ e.preventDefault(); openDetail(card.getAttribute("data-id")); }
+  });
+
+  /* 弹层内按钮 */
+  $("#mask").addEventListener("click", function(e){
+    if(e.target === e.currentTarget){ closeModal(); return; }
+    const btn = e.target.closest("[data-act]");
+    if(!btn) return;
+    const act = btn.getAttribute("data-act");
+    if(act === "close"){ closeModal(); return; }
+    const id = btn.getAttribute("data-id");
+    const b = db.books.filter(function(x){ return x.id === id; })[0];
+    if(!b) return;
+    if(act === "fav"){
+      b.fav = !b.fav; save(); render(); closeModal();
+      toast(b.fav ? "已收藏" : "已取消收藏");
+    }else if(act === "sold"){
+      b.sold = !b.sold; save(); render(); closeModal();
+      toast(b.sold ? "已标记售出，恭喜" : "已恢复在架");
+    }
+  });
+
+  document.addEventListener("submit", function(e){
+    if(e.target && e.target.id === "pubForm") submitPublish(e);
+  });
+
+  document.addEventListener("keydown", function(e){
+    if(e.key === "Escape" && $("#mask").classList.contains("on")) closeModal();
+  });
+
+  /* 恢复暗色 */
+  try{
+    if(localStorage.getItem(KEY + ".theme") === "dark"){
+      document.body.classList.add("dark");
+      $("#themeBtn").textContent = "暖色";
+    }
+  }catch(err){}
+}
+
+/* ========== 启动 ========== */
+bind();
+render();
+
+/* 首次打开给个提示，演示时好讲 */
+setTimeout(function(){
+  toast("试试搜索“高数”，或者点右上角发布一本");
+}, 700);
+
+})();
+</script>
+</body>
+</html>
