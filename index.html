@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>旧书角 · 校园二手书交换</title>
+<meta name="description" content="华师校内二手教材流转平台，搜索、筛选、发布、收藏。">
 <style>
 :root{
   --bg:#f3eee4;--paper:#fffcf5;--ink:#2b2620;--ink2:#6d6355;--line:#d8cfbf;
@@ -19,30 +20,20 @@ body.dark{
 body{
   margin:0;background:var(--bg);color:var(--ink);
   font-family:"Songti SC",SimSun,Georgia,"Noto Serif SC",serif;
-  font-size:15px;line-height:1.7;
-  transition:background .25s,color .25s;
+  font-size:15px;line-height:1.7;transition:background .25s,color .25s;
 }
 button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
 button{cursor:pointer}
 a{color:inherit;text-decoration:none}
 .wrap{max-width:1100px;margin:0 auto;padding:0 20px}
 
-header{
-  position:sticky;top:0;z-index:30;background:var(--bg);
-  border-bottom:1px solid var(--line);transition:background .25s;
-}
+header{position:sticky;top:0;z-index:30;background:var(--bg);border-bottom:1px solid var(--line);transition:background .25s}
 .head{display:flex;align-items:center;gap:16px;padding:13px 0}
 .logo{font-size:21px;font-weight:700;letter-spacing:.1em;white-space:nowrap}
 .logo em{font-style:normal;color:var(--accent)}
-.logo small{
-  font-size:10px;letter-spacing:.22em;color:var(--ink2);
-  font-family:system-ui,sans-serif;font-weight:400;margin-left:6px;vertical-align:2px;
-}
+.logo small{font-size:10px;letter-spacing:.22em;color:var(--ink2);font-family:system-ui,sans-serif;font-weight:400;margin-left:6px;vertical-align:2px}
 .acts{margin-left:auto;display:flex;gap:8px;align-items:center}
-.btn{
-  border:1px solid var(--ink);background:transparent;color:var(--ink);
-  padding:6px 14px;border-radius:2px;transition:.15s;white-space:nowrap;
-}
+.btn{border:1px solid var(--ink);background:transparent;color:var(--ink);padding:6px 14px;border-radius:2px;transition:.15s;white-space:nowrap}
 .btn:hover{background:var(--ink);color:var(--paper)}
 .btn.pri{background:var(--accent);border-color:var(--accent);color:#fff}
 .btn.pri:hover{filter:brightness(.9);background:var(--accent)}
@@ -52,15 +43,9 @@ header{
 
 .hero{padding:40px 0 26px}
 .hero h1{margin:0 0 10px;font-size:38px;line-height:1.32;letter-spacing:.02em;font-weight:700}
-.hero h1 span{
-  color:var(--accent);
-  border-bottom:4px solid var(--soft);
-}
+.hero h1 span{color:var(--accent);border-bottom:4px solid var(--soft)}
 .hero p{margin:0;color:var(--ink2);max-width:35em}
-.stats{
-  display:flex;gap:26px;flex-wrap:wrap;margin-top:24px;
-  padding-top:16px;border-top:1px dashed var(--line);
-}
+.stats{display:flex;gap:26px;flex-wrap:wrap;margin-top:24px;padding-top:16px;border-top:1px dashed var(--line)}
 .stat b{font-family:Georgia,serif;font-size:22px;color:var(--ink);font-weight:700}
 .stat span{display:block;font-size:11.5px;color:var(--ink2);font-family:system-ui,sans-serif;letter-spacing:.05em}
 
@@ -69,29 +54,19 @@ header{
   padding:13px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
   position:sticky;top:53px;background:var(--bg);z-index:20;transition:background .25s;
 }
-.search{
-  flex:1;min-width:170px;background:var(--paper);border:1px solid var(--line);
-  padding:7px 12px;border-radius:2px;outline:none;
-}
+.search{flex:1;min-width:170px;background:var(--paper);border:1px solid var(--line);padding:7px 12px;border-radius:2px;outline:none}
 .search:focus{border-color:var(--ink)}
-select{
-  background:var(--paper);border:1px solid var(--line);
-  padding:7px 9px;border-radius:2px;outline:none;
-}
+select{background:var(--paper);border:1px solid var(--line);padding:7px 9px;border-radius:2px;outline:none}
 .favfilter{border:1px solid var(--line);background:var(--paper);color:var(--ink2);padding:6px 11px;border-radius:2px}
 .favfilter.on{background:var(--accent);border-color:var(--accent);color:#fff}
 .count{font-size:12.5px;color:var(--ink2);font-family:system-ui,sans-serif;margin-left:auto}
 
-.grid{
-  display:grid;gap:20px;padding:26px 0 46px;
-  grid-template-columns:repeat(auto-fill,minmax(212px,1fr));
-}
+.grid{display:grid;gap:20px;padding:26px 0 46px;grid-template-columns:repeat(auto-fill,minmax(212px,1fr))}
 .card{
   background:var(--paper);border:1px solid var(--line);border-radius:var(--r);
   box-shadow:var(--sh);padding:0 0 12px;position:relative;
   display:flex;flex-direction:column;cursor:pointer;
-  transition:transform .18s,box-shadow .18s;
-  animation:up .28s ease-out both;
+  transition:transform .18s,box-shadow .18s;animation:up .28s ease-out both;
 }
 @keyframes up{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 .card:hover{transform:translateY(-3px);box-shadow:0 4px 10px rgba(43,38,32,.08),0 16px 34px rgba(43,38,32,.11)}
@@ -124,11 +99,7 @@ select{
 .fav.on{opacity:1;color:#ffd9b0}
 .empty{grid-column:1/-1;text-align:center;padding:64px 0;color:var(--ink2)}
 
-.mask{
-  position:fixed;inset:0;background:rgba(28,24,18,.5);display:none;
-  align-items:center;justify-content:center;padding:18px;z-index:60;
-  backdrop-filter:blur(2px);
-}
+.mask{position:fixed;inset:0;background:rgba(28,24,18,.5);display:none;align-items:center;justify-content:center;padding:18px;z-index:60;backdrop-filter:blur(2px)}
 .mask.on{display:flex}
 .sheet{
   background:var(--paper);border:1px solid var(--line);border-radius:5px;
@@ -140,9 +111,7 @@ select{
 .sheet .sub{margin:0 0 18px;font-size:12px;color:var(--ink2);font-family:system-ui,sans-serif}
 .f{margin-bottom:11px;display:flex;flex-direction:column;gap:3px}
 .f label{font-size:11.5px;color:var(--ink2);font-family:system-ui,sans-serif}
-.f input,.f select,.f textarea{
-  background:var(--bg);border:1px solid var(--line);padding:7px 9px;border-radius:2px;outline:none;
-}
+.f input,.f select,.f textarea{background:var(--bg);border:1px solid var(--line);padding:7px 9px;border-radius:2px;outline:none}
 .f input:focus,.f select:focus,.f textarea:focus{border-color:var(--ink)}
 .f textarea{resize:vertical;min-height:58px}
 .f .e{display:none;font-size:11px;color:var(--accent);font-family:system-ui,sans-serif}
@@ -193,7 +162,7 @@ footer{
 
   <section class="hero">
     <h1>期末了，<span>把课本交给下一个人</span></h1>
-    <p>一个只在华师校内流转的二手书角落。按学院、按成色筛选，价格自己谈，见面自提。不卖假书，不赚差价。</p>
+    <p>一边在扔，一边在买。这里是一个只在校内流转的二手书角落，按学院、按成色筛选，价格自己谈，见面自提。</p>
     <div class="stats">
       <div class="stat"><b id="sTotal">0</b><span>在架图书</span></div>
       <div class="stat"><b id="sPrice">0</b><span>平均价格</span></div>
@@ -238,50 +207,65 @@ footer{
 (function(){
 "use strict";
 
-/* ========== 1. 数据层 ========== */
-const KEY = "jiushujiao.v1";
+const KEY = "jiushujiao.v2";
 const CATS = ["文学","高数","计算机","物理","外语","经管","心理","化学"];
 const COLORS = ["#7c4a3a","#3f5d6b","#6b6b3f","#5a4a6b","#7a5a3a","#3a5a4a","#6b4a4f","#4a566b"];
-const NAMES = ["林小满","周予安","陈默","许知夏","赵一鸣","孙可","钱多多","吴桐","郑小satisfied","冯遥","何川","蒋念念"];
+const NAMES = ["林小满","周予安","陈默","许知夏","赵一鸣","孙可","钱多多","吴桐","郑小满","冯遥","何川","蒋念念"];
 
-/* 用固定种子生成初始数据，保证每次打开内容一致 */
 let seed = 2024214075;
 function rnd(){ seed = (seed * 1103515245 + 12345) % 2147483648; return seed / 2147483648; }
 function pick(a){ return a[Math.floor(rnd()*a.length)]; }
 
+/* 书名 / 分类 / 版次说明 / 定价 / 成色 */
 const BOOKS = [
-  ["西方文学十五讲","文学","北大版"],["中国现代文学三十年","文学","钱理群"],
-  ["古代汉语（校订重排本）","文学","王力"],["文字学概要","文学","裘锡圭"],
-  ["高等数学 上册","高数","同济第七版"],["高等数学 下册","高数","同济第七版"],
-  ["线性代数","高数","同济版"],["概率论与数理统计","高数","浙大版"],
-  ["数学分析讲义","高数","华师版"],["离散数学及其应用","计算机","Rosen"],
-  ["数据结构（C语言版）","计算机","严蔚敏"],["计算机网络 自顶向下","计算机","Kurose"],
-  ["C Primer Plus","计算机","第6版"],["操作系统概念","计算机","恐龙书"],
-  ["Python编程 从入门到实践","计算机","第3版"],["大学物理实验","物理","华师版"],
-  ["普通物理学","物理","程守洙"],["量子力学教程","物理","曾谨言"],
-  ["新视野大学英语 读写教程2","外语","第三版"],["现代汉语词典","外语","第7版"],
-  ["经济学原理 微观分册","经管","曼昆"],["管理学","经管","罗宾斯"],
-  ["会计学原理","经管","第6版"],["社会心理学","心理","戴维·迈尔斯"],
-  ["普通心理学","心理","彭聃龄"],["实验心理学","心理","郭秀艳"],
-  ["有机化学","化学","邢其毅"],["分析化学","化学","武汉大学"]
+  ["西方文学十五讲","文学","北大版",42,"九成新"],
+  ["中国现代文学三十年","文学","钱理群",58,"八成新"],
+  ["古代汉语（校订重排本）","文学","王力",32,"七成新"],
+  ["文字学概要","文学","裘锡圭",45,"九成新"],
+  ["高等数学 上册","高数","同济第七版",48,"九成新"],
+  ["高等数学 下册","高数","同济第七版",44,"八成新"],
+  ["线性代数","高数","同济版",27,"八成新"],
+  ["概率论与数理统计","高数","浙大版",36,"七成新"],
+  ["数学分析讲义","高数","华师版",45,"六成新"],
+  ["离散数学及其应用","计算机","Rosen",118,"八成新"],
+  ["数据结构（C语言版）","计算机","严蔚敏",32,"九成新"],
+  ["计算机网络 自顶向下","计算机","Kurose",89,"八成新"],
+  ["C Primer Plus","计算机","第6版",89,"七成新"],
+  ["操作系统概念","计算机","恐龙书",99,"八成新"],
+  ["Python编程 从入门到实践","计算机","第3版",90,"全新未拆"],
+  ["大学物理实验","物理","华师版",32,"九成新"],
+  ["普通物理学","物理","程守洙",46,"八成新"],
+  ["量子力学教程","物理","曾谨言",42,"七成新"],
+  ["新视野大学英语 读写教程2","外语","第三版",43,"八成新"],
+  ["牛津高阶英汉双解词典","外语","第9版",169,"九成新"],
+  ["经济学原理 微观分册","经管","曼昆",79,"八成新"],
+  ["管理学","经管","罗宾斯",78,"七成新"],
+  ["会计学原理","经管","第6版",45,"九成新"],
+  ["社会心理学","心理","戴维·迈尔斯",128,"八成新"],
+  ["普通心理学","心理","彭聃龄",68,"九成新"],
+  ["实验心理学","心理","郭秀艳",58,"七成新"],
+  ["有机化学","化学","邢其毅",68,"八成新"],
+  ["分析化学","化学","武汉大学",55,"六成新"]
 ];
-const CONDS = [["九成新",96],["八成新",88],["七成新",78],["六成新",68],["全新未拆",100]];
+
+const FACTOR = {"全新未拆":0.66,"九成新":0.46,"八成新":0.35,"七成新":0.28,"六成新":0.21};
 
 function makeId(){ return "b" + Math.random().toString(36).slice(2,9); }
 
 function buildSeed(){
   return BOOKS.map(function(b, i){
-    const orig = [39,45,52,58,68,79,32,42][i % 8];
-    const c = CONDS[i % CONDS.length];
-    const rate = 0.22 + rnd()*0.32;
+    const orig = b[3], cond = b[4];
+    let p = orig * FACTOR[cond] * (0.92 + rnd()*0.16);
+    p = p < 30 ? Math.round(p/2)*2 : Math.round(p/5)*5;
+
     return {
       id: "s" + i,
       title: b[0],
       cat: b[1],
       note: b[2],
-      price: Math.max(5, Math.round(orig * rate / 2) * 2),
+      price: Math.max(5, p),
       original: orig,
-      cond: c[0],
+      cond: cond,
       seller: NAMES[i % NAMES.length],
       contact: "QQ " + (200000000 + Math.floor(rnd()*9999999)),
       desc: pick(["书页干净，无笔记","有几页铅笔划线，可擦","有少量荧光笔标记，不影响阅读","封面有折痕，内页完好","几乎没翻过，一直闲置","笔记做得很认真，附赠课程总结"]),
@@ -305,15 +289,14 @@ function load(){
 let db = load();
 
 function save(){
-  try{ localStorage.setItem(KEY, JSON.stringify(db)); }catch(e){ toast("本地存储不可用，数据仅在本次打开有效"); }
+  try{ localStorage.setItem(KEY, JSON.stringify(db)); }
+  catch(e){ toast("本地存储不可用，数据仅在本次打开有效"); }
 }
 
-/* ========== 2. 状态与工具 ========== */
 let ui = { q:"", cat:"", sort:"new", onlyFav:false };
 let lastFocused = null;
 
 const $ = function(s, r){ return (r||document).querySelector(s); };
-const $$ = function(s, r){ return Array.prototype.slice.call((r||document).querySelectorAll(s)); };
 
 function esc(s){
   return String(s == null ? "" : s)
@@ -338,7 +321,6 @@ function toast(msg){
   toastTimer = setTimeout(function(){ t.classList.remove("on"); }, 2200);
 }
 
-/* ========== 3. 筛选与渲染 ========== */
 function visible(){
   const q = ui.q.trim().toLowerCase();
   let list = db.books.filter(function(b){
@@ -388,14 +370,13 @@ function render(){
   const live = db.books.filter(function(b){ return !b.sold; });
   const total = live.length;
   const sum = live.reduce(function(a,b){ return a + b.price; }, 0);
-  const save = db.books.reduce(function(a,b){ return a + Math.max(0, b.original - b.price); }, 0);
+  const saveMoney = db.books.reduce(function(a,b){ return a + Math.max(0, b.original - b.price); }, 0);
   $("#sTotal").textContent = total;
   $("#sPrice").textContent = total ? Math.round(sum/total) : 0;
-  $("#sSave").textContent = save;
+  $("#sSave").textContent = saveMoney;
   $("#sSold").textContent = db.books.filter(function(b){ return b.sold; }).length;
 }
 
-/* ========== 4. 详情弹层 ========== */
 function openDetail(id){
   const b = db.books.filter(function(x){ return x.id === id; })[0];
   if(!b) return;
@@ -426,7 +407,6 @@ function closeModal(){
   if(lastFocused && lastFocused.focus) lastFocused.focus();
 }
 
-/* ========== 5. 发布表单 ========== */
 function openPublish(){
   lastFocused = document.activeElement;
   $("#sheet").innerHTML =
@@ -439,12 +419,12 @@ function openPublish(){
           CATS.map(function(c){ return "<option>" + c + "</option>"; }).join("") +
         '</select><span class="e">请选择分类</span></div>' +
         '<div class="f" data-f="cond"><label>成色</label><select name="cond">' +
-          CONDS.map(function(c){ return "<option>" + c[0] + "</option>"; }).join("") +
+          ["九成新","八成新","七成新","六成新","全新未拆"].map(function(c){ return "<option>" + c + "</option>"; }).join("") +
         '</select><span class="e"></span></div>' +
       '</div>' +
       '<div class="two">' +
         '<div class="f" data-f="price"><label>售价（元）*</label><input name="price" type="number" min="0" step="1" placeholder="20"><span class="e">填一个 0 以上的数字</span></div>' +
-        '<div class="f" data-f="original"><label>原价（元）</label><input name="original" type="number" min="0" step="1" placeholder="68"><span class="e">原价要大于售价</span></div>' +
+        '<div class="f" data-f="original"><label>原价（元）</label><input name="original" type="number" min="0" step="1" placeholder="48"><span class="e">原价要大于售价</span></div>' +
       '</div>' +
       '<div class="two">' +
         '<div class="f" data-f="seller"><label>你的称呼</label><input name="seller" maxlength="12" placeholder="同学怎么称呼你"></div>' +
@@ -509,7 +489,6 @@ function submitPublish(e){
   toast("已发布，刷新也不会丢");
 }
 
-/* ========== 6. 事件绑定 ========== */
 function bind(){
   let timer = null;
   $("#q").addEventListener("input", function(e){
@@ -536,7 +515,6 @@ function bind(){
     try{ localStorage.setItem(KEY + ".theme", dark ? "dark" : "light"); }catch(err){}
   });
 
-  /* 事件委托：网格上的收藏、打开详情 */
   $("#grid").addEventListener("click", function(e){
     const favBtn = e.target.closest("[data-fav]");
     if(favBtn){
@@ -560,7 +538,6 @@ function bind(){
     if(card){ e.preventDefault(); openDetail(card.getAttribute("data-id")); }
   });
 
-  /* 弹层内按钮 */
   $("#mask").addEventListener("click", function(e){
     if(e.target === e.currentTarget){ closeModal(); return; }
     const btn = e.target.closest("[data-act]");
@@ -587,7 +564,6 @@ function bind(){
     if(e.key === "Escape" && $("#mask").classList.contains("on")) closeModal();
   });
 
-  /* 恢复暗色 */
   try{
     if(localStorage.getItem(KEY + ".theme") === "dark"){
       document.body.classList.add("dark");
@@ -596,14 +572,9 @@ function bind(){
   }catch(err){}
 }
 
-/* ========== 启动 ========== */
 bind();
 render();
-
-/* 首次打开给个提示，演示时好讲 */
-setTimeout(function(){
-  toast("试试搜索“高数”，或者点右上角发布一本");
-}, 700);
+setTimeout(function(){ toast("试试搜索“高数”，或者点右上角发布一本"); }, 700);
 
 })();
 </script>
